@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+// MARK: - SwiftUI Views
 struct ExpoFloorPlanView: View {
     @StateObject private var analyzer = ExpoFloorPlanAnalyzer()
     @State private var selectedImage: UIImage?
@@ -22,10 +23,42 @@ struct ExpoFloorPlanView: View {
                     Text("Expo Floor Plan Analyzer")
                         .font(.title)
                         .fontWeight(.bold)
-                    
-                    Text("Detect booth rectangles in floor plans")
+                    Text("Detect booths and search by name")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
+                }
+                
+                // Search Bar
+                if analyzer.detectedBooths.count > 0 {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                            TextField("Search booth name...", text: $analyzer.searchText)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .onChange(of: analyzer.searchText) { newValue in
+                                    analyzer.searchBooth(query: newValue)
+                                }
+                            if !analyzer.searchText.isEmpty {
+                                Button("Clear") {
+                                    analyzer.searchBooth(query: "")
+                                }
+                                .font(.caption)
+                            }
+                        }
+                        
+                        if !analyzer.searchText.isEmpty {
+                            if analyzer.highlightedBoothId != nil {
+                                Text("✅ Booth found and highlighted")
+                                    .font(.caption)
+                                    .foregroundColor(.green)
+                            } else {
+                                Text("❌ No booth found with that name")
+                                    .font(.caption)
+                                    .foregroundColor(.red)
+                            }
+                        }
+                    }
                 }
                 
                 // Image Display
@@ -69,6 +102,7 @@ struct ExpoFloorPlanView: View {
                     
                     Button("Analyze Floor Plan") {
                         if let image = selectedImage {
+                            analyzer.searchBooth(query: "")
                             analyzer.detectBoothsInFloorPlan(image: image)
                         }
                     }
@@ -88,7 +122,7 @@ struct ExpoFloorPlanView: View {
                     HStack {
                         ProgressView()
                             .scaleEffect(0.8)
-                        Text("Analyzing floor plan...")
+                        Text("Analyzing floor plan and detecting text...")
                             .font(.caption)
                     }
                 }
@@ -98,9 +132,15 @@ struct ExpoFloorPlanView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Detection Results")
                             .font(.headline)
-                        
                         Text("Found \(analyzer.detectedBooths.count) potential booths")
                             .font(.subheadline)
+                        
+                        let boothsWithNames = analyzer.detectedBooths.filter { !$0.boothName.isEmpty }
+                        if boothsWithNames.count > 0 {
+                            Text("\(boothsWithNames.count) booths have readable text")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                         
                         let avgConfidence = analyzer.detectedBooths.reduce(0) { $0 + $1.confidence } / Float(analyzer.detectedBooths.count)
                         Text("Average confidence: \(String(format: "%.1f%%", avgConfidence * 100))")

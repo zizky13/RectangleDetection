@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 // MARK: - Data Models
 struct DetectedBooth: Identifiable {
@@ -14,4 +15,7 @@ struct DetectedBooth: Identifiable {
     let boundingBox: CGRect
     let confidence: Float
     let area: CGFloat
+    var detectedText: String = ""
+    var boothName: String = ""
+    var isHighlighted: Bool = false
 }
