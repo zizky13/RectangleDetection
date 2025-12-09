@@ -4,25 +4,24 @@ An iOS application built with SwiftUI that uses Apple's Vision framework to dete
 
 ## Features
 
-### 🔍 Advanced Rectangle Detection
+### Rectangle Detection
 - **Multi-strategy detection**: Uses three different detection algorithms (high sensitivity, standard, and small booth optimized) to maximize booth detection accuracy
 - **Intelligent preprocessing**: Enhances images with contrast adjustment, edge sharpening, and grayscale conversion for better detection
 - **Smart filtering**: Removes duplicate detections and composite boxes while preserving valid booth boundaries
 - **Edge booth detection**: Specialized algorithms to detect booths at image boundaries that are often missed by standard detection
 
-### 📱 User-Friendly Interface
+### Friendly UI
 - **Image selection**: Easy photo library integration for selecting floor plan images
-- **Real-time analysis**: Progress indicator during processing with detailed status updates
 - **Interactive visualization**: Detected booths are outlined with confidence scores and booth names
 - **Detailed results**: Shows detection statistics including booth count, confidence averages, and text recognition results
 
-### 🔎 Smart Search Functionality
+### Search
 - **Text-based search**: Find booths by name or any detected text content
 - **Visual highlighting**: Searched booths are highlighted in yellow with "FOUND" labels
 - **Case-insensitive matching**: Flexible search that works with partial matches
 - **Real-time feedback**: Instant visual confirmation when booths are found or not found
 
-### 📊 Comprehensive Booth Details
+### Comprehensive Booth Details
 - **Detailed view**: Expandable list showing all detected booths with full information
 - **Booth metrics**: Area, dimensions, position coordinates, and confidence scores
 - **Text extraction**: OCR-detected text content and cleaned booth names
@@ -156,7 +155,7 @@ The app leverages several Apple Vision framework capabilities:
 
 ## Development Notes
 
-Created by Zikar Nurizky on July 22, 2025. This project demonstrates advanced iOS development techniques including:
+Created by Zikar Nurizky on July 22, 2025.
 
 - SwiftUI for modern declarative UI
 - Vision framework for computer vision tasks
